@@ -1,8 +1,8 @@
 # Minecraft Datapack Copilot
 
-<img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/e63df606-36e0-42fc-a470-31c7bfc01938" />
-
 Quickly build functional minecraft datapacks with AWS Nova.
+
+<img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/e63df606-36e0-42fc-a470-31c7bfc01938" />
 
 ## Architecture
 
