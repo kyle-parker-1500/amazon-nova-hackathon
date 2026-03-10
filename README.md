@@ -7,6 +7,13 @@ Quickly build functional minecraft datapacks with AWS Nova.
 - [ ] How do we use the AWS Nova API text in text out - @kyle-parker-1500
 - [ ] How do we verify the output for the datapack
 
+## Setup
+
+```bash
+uv sync
+uv run main.py
+```
+
 ## Get API Key
 
 <img width="658" height="761" alt="image" src="https://github.com/user-attachments/assets/0b133605-c7ad-4653-b01e-41b3769a602b" />
