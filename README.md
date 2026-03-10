@@ -2,6 +2,28 @@
 
 Quickly build functional minecraft datapacks with AWS Nova.
 
+## Architecture
+
+```mermaid
+flowchart LR
+
+idea[Minecraft Datapack Idea]
+
+copilot[Datapack Copilot]
+
+nova[(Amazon Nova API)]
+
+validator[Datapack Validator]
+
+pack[Validated Datapack]
+
+idea -->|Prompt| copilot
+copilot -->|Generate code| nova
+nova -->|Model output| copilot
+copilot -->|Generated datapack| validator
+validator -->|Validation| pack
+```
+
 ## Roadmap
 
 - [ ] How do we use the AWS Nova API text in text out - @kyle-parker-1500
@@ -18,7 +40,13 @@ uv run main.py
 
 Use `validate.py` to check if a datapack is correct.
 
+Correct datapacks look like this:
+
 <img width="1455" height="904" alt="image" src="https://github.com/user-attachments/assets/bfb3cf0a-9632-4d0d-9933-944b10f12a24" />
+
+Incorrect datapacks look like this:
+
+<img width="1445" height="438" alt="image" src="https://github.com/user-attachments/assets/cae170c6-a383-4ec8-a109-0329f2da98c5" />
 
 ## Get API Key
 
