@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import LandingPage from "./LandingPage";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
@@ -234,8 +235,8 @@ function Message({ role, content }: { role: string; content: string }) {
   return (
     <div className={`flex gap-3 ${isUser ? "justify-end" : "justify-start"}`}>
       {!isUser && (
-        <div className="w-7 h-7 rounded-md bg-indigo-600 flex items-center justify-center text-xs font-mono font-bold text-white shrink-0 mt-0.5">
-          G
+        <div className="w-7 h-7 rounded-md bg-green-600 flex items-center justify-center text-xs font-mono font-bold text-white shrink-0 mt-0.5">
+          DP
         </div>
       )}
 
@@ -295,14 +296,14 @@ function Message({ role, content }: { role: string; content: string }) {
 function TypingIndicator() {
   return (
     <div className="flex gap-3 justify-start">
-      <div className="w-7 h-7 rounded-md bg-indigo-600 flex items-center justify-center text-xs font-mono font-bold text-white shrink-0">
-        G
+      <div className="w-7 h-7 rounded-md bg-green-600 flex items-center justify-center text-xs font-mono font-bold text-white shrink-0">
+        DP
       </div>
       <div className="bg-zinc-900 border border-zinc-800 px-4 py-3.5 rounded-xl rounded-tl-sm flex items-center gap-1.5">
         {[0, 1, 2].map((i) => (
           <span
             key={i}
-            className="w-1.5 h-1.5 rounded-full bg-zinc-500 animate-bounce"
+            className="w-1.5 h-1.5 rounded-full bg-green-500 animate-bounce"
             style={{
               animationDelay: `${i * 0.15}s`,
               animationDuration: "0.9s",
@@ -319,9 +320,9 @@ function Sidebar({ conversations, activeId, onSelect, onNew }: any) {
     <aside className="w-64 shrink-0 flex flex-col bg-zinc-950 border-r border-zinc-800 h-screen">
       <div className="px-4 py-5 border-b border-zinc-800 flex items-center justify-between">
         <span className="font-mono text-sm font-semibold tracking-widest text-zinc-100 uppercase">
-          GPT
+          Datapack Copilot
         </span>
-        <span className="text-zinc-600 font-mono text-xs">v1.0</span>
+        <span className="text-zinc-600 font-mono text-xs">Nova</span>
       </div>
       <div className="px-3 pt-3 pb-2">
         <button
@@ -371,7 +372,7 @@ function Sidebar({ conversations, activeId, onSelect, onNew }: any) {
       </nav>
       <div className="px-4 py-3 border-t border-zinc-800">
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded-full bg-indigo-600 flex items-center justify-center text-xs font-mono font-bold text-white shrink-0">
+          <div className="w-6 h-6 rounded-full bg-green-600 flex items-center justify-center text-xs font-mono font-bold text-white shrink-0">
             K
           </div>
           <span className="text-xs text-zinc-500 font-mono truncate">
@@ -432,9 +433,9 @@ function ChatArea({ conversation, onSend, isLoading }: any) {
         <div className="max-w-3xl mx-auto px-6 space-y-5">
           {isEmpty ? (
             <div className="flex flex-col items-center justify-center h-full gap-3 text-center pt-32">
-              <div className="w-12 h-12 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-xl bg-green-600/20 border border-green-500/30 flex items-center justify-center">
                 <svg
-                  className="w-5 h-5 text-indigo-400"
+                  className="w-5 h-5 text-green-400"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -448,7 +449,7 @@ function ChatArea({ conversation, onSend, isLoading }: any) {
                 </svg>
               </div>
               <p className="text-zinc-500 text-sm font-mono">
-                Send a message to get started
+                Describe your datapack idea to get started
               </p>
             </div>
           ) : (
@@ -479,7 +480,7 @@ function ChatArea({ conversation, onSend, isLoading }: any) {
             <button
               onClick={handleSubmit}
               disabled={!input.trim() || isLoading}
-              className="shrink-0 w-8 h-8 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-colors duration-150"
+              className="shrink-0 w-8 h-8 rounded-lg bg-green-600 hover:bg-green-500 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-colors duration-150"
             >
               <svg
                 className="w-3.5 h-3.5 text-white"
@@ -497,7 +498,7 @@ function ChatArea({ conversation, onSend, isLoading }: any) {
             </button>
           </div>
           <p className="text-center text-zinc-700 font-mono text-xs mt-2">
-            GPT wrapper · responses via your API key
+            Datapack Copilot · powered by Amazon Nova
           </p>
         </div>
       </div>
@@ -508,9 +509,14 @@ function ChatArea({ conversation, onSend, isLoading }: any) {
 let nextId = INITIAL_CONVERSATIONS.length + 1;
 
 export default function App() {
+  const [showLanding, setShowLanding] = useState(true);
   const [conversations, setConversations] = useState(INITIAL_CONVERSATIONS);
   const [activeId, setActiveId] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  if (showLanding) {
+    return <LandingPage onLaunch={() => setShowLanding(false)} />;
+  }
 
   const activeConversation =
     conversations.find((c) => c.id === activeId) ?? null;
