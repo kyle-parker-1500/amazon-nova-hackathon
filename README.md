@@ -8,6 +8,10 @@ Quickly build functional minecraft datapacks with [Amazon Nova](https://nova.ama
 
 Use Amazon Nova to build functional minecraft datapacks. It's inaccessible for most Minecraft players to write datapacks by themselves, and this makes it easy!
 
+## Example
+
+![Demo Chat](demo-image.png)
+
 ## Technologies
 
 [Amazon Nova](https://nova.amazon.com/) :star:, Python, Vite, React.js, Tailwind
