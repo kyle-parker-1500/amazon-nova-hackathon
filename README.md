@@ -56,4 +56,4 @@ Incorrect datapacks look like this:
 
 ## Datapack Chat
 
-![Datapack Chat](screenshot.png)
+![Datapack Chat](datapack-chat-frontend/screenshot.png)
