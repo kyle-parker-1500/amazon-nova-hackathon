@@ -1,6 +1,6 @@
 # Minecraft Datapack Copilot
 
-Quickly build functional minecraft datapacks with AWS Nova.
+Quickly build functional minecraft datapacks with [Amazon Nova](https://nova.amazon.com).
 
 <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/e63df606-36e0-42fc-a470-31c7bfc01938" />
 
