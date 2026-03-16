@@ -4,6 +4,14 @@ Quickly build functional minecraft datapacks with AWS Nova.
 
 <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/e63df606-36e0-42fc-a470-31c7bfc01938" />
 
+#### Elevator Pitch:
+
+Use Amazon Nova to build functional minecraft datapacks. It's inaccessible for most Minecraft players to write datapacks by themselves, and this makes it easy!
+
+## Technologies
+
+[Amazon Nova](https://nova.amazon.com/) :star:, Python, Vite, React.js, Tailwind
+
 ## Architecture
 
 ```mermaid
