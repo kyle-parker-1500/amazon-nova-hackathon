@@ -9,7 +9,6 @@ load_dotenv()
 api_key = os.getenv("VITE_API_KEY")
 api_url = os.getenv("VITE_API_URL")
 
-
 # Load API key & url from .env --> remove when moving to remote server!
 client = OpenAI(
     api_key=api_key,
