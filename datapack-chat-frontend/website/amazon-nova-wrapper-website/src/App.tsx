@@ -14,6 +14,14 @@ interface FilesPayload { type: "files"; description: string; files: FileEntry[];
 type MessageContent = string | FilesPayload;
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
+function splitIntroAndFiles(raw: string): { intro: string; rest: string } {
+  const idx = raw.indexOf("```");
+  if (idx === -1) return { intro: raw, rest: "" };
+  const intro = raw.slice(0, idx).trim();
+  const rest = raw.slice(idx).trim();
+  return { intro, rest };
+}
+
 function parseReply(raw: string): MessageContent {
   try {
     const trimmed = raw.trim();
@@ -83,7 +91,26 @@ function extractAllFiles(content: string): FileEntry[] {
 
 const SYSTEM_PROMPT = `You are Datapack Copilot, an expert Minecraft datapack assistant powered by Amazon Nova.
 
-IMPORTANT: Whenever a user asks you to create or build a datapack, always begin your response by reiterating their request — write 1-2 sentences summarizing what you understood they want the datapack to do, before generating any files or code. This confirms you understood their intent correctly.
+RESPONSE STRUCTURE — follow this exactly for every datapack creation request:
+
+Step 1 — REITERATE: Start with a short paragraph (2-3 sentences) that restates what the user asked for in your own words. Explain what the datapack will do. Do NOT skip this step. Do NOT jump straight to code.
+
+Step 2 — FILES: After the reiteration paragraph, provide the datapack files using the correct code block format below.
+
+Example of correct response structure:
+---
+You want a datapack that gives players a speed boost whenever they enter a nether portal. The datapack will use a repeating command block function that detects players in the portal block and applies the Speed II effect for 5 seconds.
+
+Here are the files:
+
+\`\`\`pack.mcmeta
+{ "pack": { "pack_format": 15, "description": "Portal speed boost" } }
+\`\`\`
+
+\`\`\`data/speed_boost/functions/tick.mcfunction
+execute as @a[nbt={inPortal:1b}] run effect give @s speed 5 1
+\`\`\`
+---
 
 CRITICAL: When showing file contents in code blocks, you MUST use the file path as the language tag.
 This is required for the download feature to work.
@@ -447,10 +474,19 @@ export default function App() {
         body: JSON.stringify({ conversationId: String(targetId), message: text, systemPrompt: SYSTEM_PROMPT }),
       });
       const data = await res.json();
-      const parsed = parseReply(data.reply);
+      const raw: string = data.reply;
+      const parsed = parseReply(raw);
+
+      // Always prepend a reiteration bubble from the user's own request,
+      // then the model's reply (files/code) as a second message.
+      const reiterateIntro = `Got it! You're asking for: **${text}**\n\nHere's the datapack I generated for you:`;
+      const newMessages: { role: string; content: MessageContent }[] = [
+        { role: "assistant", content: reiterateIntro },
+        { role: "assistant", content: parsed },
+      ];
 
       setConversations((prev: any) =>
-        prev.map((c: any) => c.id === targetId ? { ...c, messages: [...c.messages, { role: "assistant", content: parsed }] } : c)
+        prev.map((c: any) => c.id === targetId ? { ...c, messages: [...c.messages, ...newMessages] } : c)
       );
     } catch (err) {
       console.error(err);
