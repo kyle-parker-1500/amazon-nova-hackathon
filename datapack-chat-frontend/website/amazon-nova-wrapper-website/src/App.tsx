@@ -4,29 +4,8 @@ import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
-const INITIAL_CONVERSATIONS = [
-  {
-    id: 1,
-    title: "Explain React Server Components",
-    preview: "What are RSCs and when...",
-    timestamp: "2h ago",
-    messages: [],
-  },
-  {
-    id: 2,
-    title: "Fix my BFS traversal bug",
-    preview: "My adjacency list is...",
-    timestamp: "Yesterday",
-    messages: [],
-  },
-  {
-    id: 3,
-    title: "Tailwind v4 migration",
-    preview: "How do I update my...",
-    timestamp: "2d ago",
-    messages: [],
-  },
-];
+const INITIAL_CONVERSATIONS: never[] = [];
+let nextId = 1;
 
 // Detects ```filename.ext ... ``` blocks and returns { filename, lang, code } or null
 function extractFile(content: string) {
@@ -114,7 +93,30 @@ function MarkdownContent({ content }: { content: string }) {
                   <span className="text-xs font-mono text-zinc-500">
                     {match[1]}
                   </span>
-                  <CopyButton text={codeStr} />
+                  <div className="flex items-center gap-1">
+                    <CopyButton text={codeStr} />
+                    <button
+                      onClick={() => {
+                        const filename = `code.${match[1]}`;
+                        downloadFile(filename, codeStr);
+                      }}
+                      className="flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-mono text-zinc-500 hover:text-zinc-200 hover:bg-zinc-700 transition-colors duration-150"
+                    >
+                      <svg
+                        className="w-3 h-3"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                        />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
                 <SyntaxHighlighter
                   style={oneDark}
@@ -505,8 +507,6 @@ function ChatArea({ conversation, onSend, isLoading }: any) {
     </div>
   );
 }
-
-let nextId = INITIAL_CONVERSATIONS.length + 1;
 
 export default function App() {
   const [showLanding, setShowLanding] = useState(true);
