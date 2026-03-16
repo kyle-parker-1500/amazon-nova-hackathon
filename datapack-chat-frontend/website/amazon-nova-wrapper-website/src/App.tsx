@@ -83,7 +83,9 @@ function extractAllFiles(content: string): FileEntry[] {
 
 const SYSTEM_PROMPT = `You are Datapack Copilot, an expert Minecraft datapack assistant powered by Amazon Nova.
 
-CRITICAL: When showing file contents in code blocks, you MUST use the file path as the language tag. 
+IMPORTANT: Whenever a user asks you to create or build a datapack, always begin your response by reiterating their request — write 1-2 sentences summarizing what you understood they want the datapack to do, before generating any files or code. This confirms you understood their intent correctly.
+
+CRITICAL: When showing file contents in code blocks, you MUST use the file path as the language tag.
 This is required for the download feature to work.
 
 CORRECT format:
@@ -277,10 +279,22 @@ function TypingIndicator() {
   return (
     <div className="flex gap-3 justify-start">
       <div className="w-7 h-7 rounded-md bg-green-600 flex items-center justify-center text-xs font-mono font-bold text-white shrink-0">DP</div>
-      <div className="bg-zinc-900 border border-zinc-800 px-4 py-3.5 rounded-xl rounded-tl-sm flex items-center gap-1.5">
-        {[0, 1, 2].map((i) => (
-          <span key={i} className="w-1.5 h-1.5 rounded-full bg-green-500 animate-bounce" style={{ animationDelay: `${i * 0.15}s`, animationDuration: "0.9s" }} />
-        ))}
+      <div className="flex flex-col gap-2">
+        {/* ChatGPT-style tool call bubble */}
+        <div className="inline-flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700 text-xs font-mono text-zinc-300 shadow-sm">
+          {/* animated spinner */}
+          <svg className="w-3.5 h-3.5 text-purple-400 animate-spin shrink-0" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+          </svg>
+          <span className="text-zinc-500">calling</span>
+          <span className="text-purple-300 font-semibold tracking-wide">amazon_nova</span>
+          <span className="flex gap-0.5 ml-0.5">
+            {[0, 1, 2].map((i) => (
+              <span key={i} className="w-1 h-1 rounded-full bg-purple-400 animate-bounce" style={{ animationDelay: `${i * 0.18}s`, animationDuration: "1s" }} />
+            ))}
+          </span>
+        </div>
       </div>
     </div>
   );
